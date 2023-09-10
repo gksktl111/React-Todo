@@ -1,0 +1,337 @@
+:root {
+  /* App Colors */
+  /* 한단계 더 추상화 해서 사용 */
+  --color-primary: var(--color-black);
+
+  /*basic Colors */
+
+  --color--white: #ffffff;
+
+  --color--lightGray: #ececec;
+
+  --color--gray: #b9b9b9;
+
+  --color-black: #050a13;
+
+  --color--red: #f73f3f;
+
+  --color-blue: #03e8f9;
+
+  --color-orange: #fa8e54;
+
+  --color-darkorange: #b6683d;
+
+  --color-navy: #144272;
+
+  --color-darkBlue: #183a61;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  height: 960px;
+  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 500px;
+  height: 600px;
+
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.header__darkmode {
+  display: flex;
+
+  width: 100%;
+  height: 60px;
+
+  padding: 10px 25px 10px 15px;
+
+  border-radius: 20px 20px 0 0;
+
+  background-color: var(--color-darkBlue);
+
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header {
+  display: flex;
+
+  width: 100%;
+  height: 60px;
+
+  padding: 10px 25px 10px 15px;
+
+  border-radius: 20px 20px 0 0;
+
+  background-color: var(--color--lightGray);
+
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__darkmode__btn {
+  display: flex;
+  background-color: transparent;
+  border: none;
+
+  color: var(--color--white);
+
+  font-size: 2rem;
+
+  cursor: pointer;
+
+  align-items: center;
+  justify-content: center;
+
+  transition: all 300ms;
+}
+
+.header__darkmode__btn:hover {
+  color: var(--color-orange);
+  transform: scale(1.2);
+}
+
+.moon {
+  color: var(--color-black);
+}
+
+.moon:hover {
+  color: var(--color-orange);
+}
+
+.navMenus {
+  display: flex;
+
+  gap: 16px;
+}
+
+.navMenu__item {
+  color: var(--color-darkorange);
+  font-size: 1.2rem;
+  font-weight: bold;
+
+  cursor: pointer;
+  transition: all 300ms;
+}
+
+.navMenu__item__active {
+  color: var(--color-orange);
+  font-size: 1.2rem;
+  font-weight: bold;
+
+  text-decoration: underline;
+  text-decoration-color: var(--color--gray); /* 밑줄 색상 설정 */
+  text-underline-offset: 0.3em; /* 텍스트로부터 밑줄까지의 거리 조정 */
+  text-decoration-thickness: 2px; /* 밑줄 두께 설정 */
+
+  cursor: pointer;
+  transition: all 300ms;
+}
+
+.navMenu__item:hover,
+.navMenu__item__active:hover {
+  color: var(--color-orange);
+  transform: scale(1.2);
+}
+
+.list__container__darkmode {
+  width: 100%;
+  height: 480px;
+
+  background-color: var(--color-navy);
+
+  overflow-y: auto;
+}
+
+.list__container {
+  width: 100%;
+  height: 480px;
+
+  background-color: var(--color--white);
+
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px; /* 세로축 스크롤바 폭 너비 */
+  height: 20px; /* 가로축 스크롤바 폭 너비 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-orange); /* 스크롤바 막대 색상 */
+  border: 2px solid var(--color-darkorange); /* 스크롤바 막대 테두리 설정  */
+  border-radius: 12px 12px 12px 12px;
+}
+
+.list {
+  font-size: 1.4rem;
+  list-style-type: none;
+
+  padding: 0 20px;
+}
+
+.list__items {
+  display: flex;
+
+  padding: 10px 0;
+
+  justify-content: space-between;
+}
+
+.list__item {
+  display: flex;
+
+  gap: 0.5rem;
+}
+
+.list__span {
+  color: var(--color--white);
+}
+
+.list__span__check {
+  color: var(--color--gray);
+
+  text-decoration: line-through;
+}
+
+.list__span__darkMode {
+  color: var(--color--black);
+}
+
+.list__span__check__darkMode {
+  color: var(--color--gray);
+
+  text-decoration: line-through;
+}
+
+.list__item__remove {
+  display: flex;
+  font-size: 1.8rem;
+
+  border: none;
+  background-color: transparent;
+
+  transition: all 300ms;
+  cursor: pointer;
+}
+
+.list__item__remove:hover {
+  transform: scale(1.2);
+  color: var(--color--red);
+}
+
+.list__item__remove:active {
+  transform: scale(1.4);
+}
+
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 2px solid var(--color--gray);
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 24px;
+  outline: 0;
+  width: 24px;
+}
+input[type='checkbox']::after {
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  content: '';
+  display: none;
+  height: 40%;
+  left: 40%;
+  position: relative;
+  top: 20%;
+  transform: rotate(45deg);
+  width: 15%;
+}
+input[type='checkbox']:checked {
+  background: #eb5d0b;
+}
+input[type='checkbox']:checked::after {
+  display: block;
+}
+
+.footer__darkmode {
+  display: flex;
+
+  width: 100%;
+  height: 60px;
+  background-color: var(--color-darkBlue);
+
+  border-radius: 0 0 20px 20px;
+
+  padding: 20px 20px;
+
+  align-items: center;
+}
+
+.footer {
+  display: flex;
+
+  width: 100%;
+  height: 60px;
+  background-color: var(--color--lightGray);
+
+  border-radius: 0 0 20px 20px;
+
+  padding: 20px 20px;
+
+  align-items: center;
+}
+
+.footer__form {
+  display: flex;
+
+  width: 100%;
+  height: 35px;
+
+  align-items: center;
+}
+
+.footer__input {
+  height: 100%;
+  width: 80%;
+
+  border: none;
+  border-radius: 10px 0 0 10px;
+
+  outline: none;
+  padding: 10px;
+
+  font-size: 1.2rem;
+}
+
+.footer__btn {
+  height: 100%;
+  width: 20%;
+
+  background-color: var(--color-orange);
+  color: var(--color--white);
+
+  font-size: 1.4rem;
+
+  border: none;
+  border-radius: 0 10px 10px 0;
+
+  cursor: pointer;
+
+  transition: all 300ms;
+}
+
+.footer__btn:hover {
+  font-size: 1.6rem;
+}
