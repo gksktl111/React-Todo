@@ -3,6 +3,7 @@ import { BiSolidSun } from 'react-icons/bi';
 import { HiMoon } from 'react-icons/hi';
 import { useEffect, useRef, useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const [todos, setTodos] = useState(() => readTodosFromLocalStroage());
@@ -23,10 +24,7 @@ function App() {
     if (inputValue.trim().length === 0) {
       return;
     }
-    setTodos([
-      ...todos,
-      { id: new Date().getTime(), text: inputValue, checked: false },
-    ]);
+    setTodos([...todos, { id: uuidv4(), text: inputValue, checked: false }]);
     setInputValue('');
   };
 
@@ -164,7 +162,6 @@ function App() {
 }
 
 function readTodosFromLocalStroage() {
-  console.log('asdadasdad');
   const todos = localStorage.getItem('todos');
   return todos ? JSON.parse(todos) : [];
 }
