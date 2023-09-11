@@ -20,7 +20,7 @@ function App() {
   };
 
   const addTodo = () => {
-    if (inputValue === '') {
+    if (inputValue.trim().length === 0) {
       return;
     }
     setTodos([
