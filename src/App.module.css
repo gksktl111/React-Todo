@@ -32,7 +32,6 @@
 
 body {
   display: flex;
-  height: 960px;
   background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
 
   align-items: center;
@@ -40,6 +39,8 @@ body {
 }
 
 .container {
+  position: relative;
+  top: 50px;
   width: 500px;
   height: 600px;
 
@@ -230,10 +231,6 @@ body {
   color: var(--color--red);
 }
 
-.list__item__remove:active {
-  transform: scale(1.4);
-}
-
 input[type='checkbox'] {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -334,4 +331,20 @@ input[type='checkbox']:checked::after {
 
 .footer__btn:hover {
   font-size: 1.6rem;
+}
+
+.item__button__comtainer {
+  display: flex;
+
+  gap: 16px;
+}
+
+.list__item__edit {
+  transition: all 300ms;
+  cursor: pointer;
+}
+
+.list__item__edit:hover {
+  color: var(--color-blue);
+  transform: scale(1.2);
 }

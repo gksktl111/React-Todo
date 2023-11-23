@@ -2,8 +2,8 @@ import styles from './App.module.css';
 import { BiSolidSun } from 'react-icons/bi';
 import { HiMoon } from 'react-icons/hi';
 import { useEffect, useRef, useState } from 'react';
-import { TiDelete } from 'react-icons/ti';
 import { v4 as uuidv4 } from 'uuid';
+import { Todo } from './components/Todo';
 
 function App() {
   const [todos, setTodos] = useState(() => readTodosFromLocalStroage());
@@ -12,35 +12,38 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const filteredTodos = getFilteredTodos(todos, activeItem);
 
+  // 카테고리
   const handleActiveItem = (e) => {
     setActiveItem(e.target.textContent);
   };
 
+  // 인풋값 받기
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
+  // todo 추가
   const addTodo = () => {
     if (inputValue.trim().length === 0) {
-      return;
+      return alert('빈칸입니다');
     }
     setTodos([...todos, { id: uuidv4(), text: inputValue, checked: false }]);
     setInputValue('');
   };
 
+  // todo 삭제
   const delTodo = (index) => {
+    // 내가 선택한 요소 이외의 인덱스만 남기고 선택 요소만 필터링
     setTodos(todos.filter((_, i) => i !== index));
   };
 
-  useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }, [todos]);
-
+  // 클릭 이벤트받기
   const handleClick = (e) => {
     e.preventDefault();
     addTodo();
   };
 
+  // 엔터 이벤트받기
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -48,6 +51,7 @@ function App() {
     }
   };
 
+  // 토글 체크
   const toggleCheck = (index) => {
     setTodos(
       todos.map((todo, i) =>
@@ -56,15 +60,51 @@ function App() {
     );
   };
 
+  // 다크 모드
   const handleDarkMode = () => {
     setDarkMode(!darkMode);
+  };
+
+  // 로컬에서 todos받아오기
+  function readTodosFromLocalStroage() {
+    const todos = localStorage.getItem('todos');
+    console.log(todos);
+    return todos ? JSON.parse(todos) : [];
+  }
+
+  // 카테고리 필터
+  function getFilteredTodos(todos, activeItem) {
+    switch (activeItem) {
+      case 'All':
+        return todos;
+      case 'Active':
+        // Return only active todos
+        return todos.filter((todo) => !todo.checked);
+      case 'Completed':
+        // Return only completed todos
+        return todos.filter((todo) => todo.checked);
+      default:
+        throw new Error(`Unknown filter: ${activeItem}`);
+    }
+  }
+
+  // todo 수정
+  const editTodo = (index, newText) => {
+    setTodos(
+      todos.map((todo, i) => (i === index ? { ...todo, text: newText } : todo))
+    );
   };
 
   // 마지막 아이템에 대한 ref 생성
   const lastTodoRef = useRef(null);
   const todosLengthRef = useRef(0); // todos 배열의 길이를 저장하는 ref
 
-  // 새로운 투두가 추가될 때마다 실행되는 useEffect
+  // todos가 변경되면 로컬에저장
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+
+  // 새로운 투두가 추가될 때마다 실행되는 스크롤이동 useEffect
   useEffect(() => {
     if (lastTodoRef.current && todos.length > todosLengthRef.current) {
       // 만약 todos.length 가 증가했다면...
@@ -129,13 +169,14 @@ function App() {
       >
         <ol className={styles.list}>
           {filteredTodos.map((todo, index) => (
-            <TodoItem
+            <Todo
               key={todo.id}
               todo={todo}
               todos={todos}
               index={index}
               lastTodoRef={lastTodoRef}
               delTodo={delTodo}
+              editTodo={editTodo}
               toggleCheck={toggleCheck}
               darkMode={darkMode}
             />
@@ -159,81 +200,6 @@ function App() {
       </footer>
     </div>
   );
-}
-
-function readTodosFromLocalStroage() {
-  const todos = localStorage.getItem('todos');
-  return todos ? JSON.parse(todos) : [];
-}
-
-function TodoItem({
-  todo,
-  todos,
-  index,
-  lastTodoRef,
-  delTodo,
-  toggleCheck,
-  darkMode,
-}) {
-  const [itemChecked, setItemChecked] = useState(todo.checked);
-
-  const handleCheckBox = () => {
-    toggleCheck(index);
-    setItemChecked(!todo.checked);
-  };
-
-  return (
-    <li
-      key={todo.id}
-      ref={index === todos.length - 1 ? lastTodoRef : null}
-      className={styles.list__items}
-    >
-      <div className={styles.list__item}>
-        <input
-          type='checkBox'
-          defaultChecked={todo.checked}
-          onChange={handleCheckBox}
-        />
-        {darkMode ? (
-          <span
-            className={
-              itemChecked ? styles.list__span__check : styles.list__span
-            }
-          >
-            {todo.text}
-          </span>
-        ) : (
-          <span
-            className={
-              itemChecked
-                ? styles.list__span__check__darkMode
-                : styles.list__span__darkMode
-            }
-          >
-            {todo.text}
-          </span>
-        )}
-      </div>
-      <div className={styles.list__item__remove} onClick={() => delTodo(index)}>
-        <TiDelete />
-      </div>
-    </li>
-  );
-}
-
-function getFilteredTodos(todos, activeItem) {
-  switch (activeItem) {
-    case 'All':
-      return todos;
-    case 'Active':
-      // Return only active todos
-      return todos.filter((todo) => !todo.checked);
-    case 'Completed':
-      // Return only completed todos
-      return todos.filter((todo) => todo.checked);
-    default:
-      throw new Error(`Unknown filter: ${activeItem}`);
-  }
 }
 
 export default App;
